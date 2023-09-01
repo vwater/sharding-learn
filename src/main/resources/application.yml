@@ -1,0 +1,38 @@
+spring:
+  shardingsphere:
+    # 参数配置，显示sql
+    props:
+      sql:
+        show: true
+    datasource:
+      names: omni-oc
+      omni-oc:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://8.210.154.116:5/vwater?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useTimezone=true&serverTimezone=Asia/Shanghai
+        username: user_root
+        password: zkE~H?!%1&omnWOW&*kZP[+
+    sharding:
+      default-data-source-name: omni-oc
+      tables:
+        order_header:
+          actual-data-nodes: omni-oc.order_header_$->{202307..202309}
+          table-strategy:
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name: com.djtu.vwater.config.CustomPreciseShardingAlgorithm
+              range-algorithm-class-name: com.djtu.vwater.config.CustomRangeShardingAlgorithm
+        order_item:
+          actual-data-nodes: omni-oc.order_item_$->{202307..202309}
+          table-strategy:
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name: com.djtu.vwater.config.CustomPreciseShardingAlgorithm
+              range-algorithm-class-name: com.djtu.vwater.config.CustomRangeShardingAlgorithm
+#          key-generate-strategy:
+#            column: id
+#            type: SNOWFLAKE
+#      default-table-strategy:
+#        inline:
+#          sharding-column: create_time
+#          algorithm-expression: order_header_$->{create_time.month % 100}
