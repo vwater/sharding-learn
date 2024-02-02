@@ -14,7 +14,7 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
-package com.djtu.vwater.entity;
+package com.djtu.vwater.dal.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -42,13 +42,13 @@ public class OrderHeader extends BaseEntity {
     /**
      * id
      */
-	@TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
-     * tenantId
+     * 租户id
      */
-	@TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer tenantId;
 
     /**
@@ -57,29 +57,14 @@ public class OrderHeader extends BaseEntity {
     private String orderSn;
 
     /**
-     * tokopedia订单展示编号
+     * 订单展示编号
      */
-    private String invoiceRelNum;
-
-    /**
-     * 订单状态码
-     */
-    private Integer statusCode;
-
-    /**
-     * 外部订单状态
-     */
-    private String externalStatus;
+    private String displayedOrderSn;
 
     /**
      * 支付方式
      */
     private String paymentMethod;
-
-    /**
-     * 是否预定订单
-     */
-    private Boolean isPreOrder;
 
     /**
      * 是否货到付款
@@ -89,19 +74,17 @@ public class OrderHeader extends BaseEntity {
     /**
      * 货到付款金额
      */
-
     private BigDecimal codAmount;
-
-    /**
-     * 支付时间
-     */
-    @TableField(value = "payment_time")
-    private LocalDateTime paymentTime;
 
     /**
      * 接单截止时间
      */
     private LocalDateTime acceptDeadline;
+
+    /**
+     * 支付时间
+     */
+    private LocalDateTime paymentTime;
 
     /**
      * 订单物品总价格
@@ -116,7 +99,6 @@ public class OrderHeader extends BaseEntity {
     /**
      * 税
      */
-
     private BigDecimal tax;
 
     /**
@@ -135,12 +117,18 @@ public class OrderHeader extends BaseEntity {
     private BigDecimal serviceFee;
 
     /**
-     * 平台物流费
+     * 其他费用
      */
     private BigDecimal otherCost;
 
+    /**
+     * 买家交易费,shopee专用
+     */
     private BigDecimal buyerTransactionFee;
 
+    /**
+     * 最终物流费
+     */
     private BigDecimal finalShippingFee;
 
     /**
@@ -153,6 +141,9 @@ public class OrderHeader extends BaseEntity {
      */
     private BigDecimal discount;
 
+    /**
+     * 运费折扣
+     */
     private BigDecimal shippingDiscount;
 
     /**
@@ -160,15 +151,18 @@ public class OrderHeader extends BaseEntity {
      */
     private BigDecimal totalPrice;
 
-    private BigDecimal escrowAmount;
-
-
     /**
      * 卖家最终收入
      */
     private BigDecimal totalSales;
+
     /**
-     * 总重量(g)
+     * 托管金额 shopee专用
+     */
+    private BigDecimal escrowAmount;
+
+    /**
+     * 总重量（g）
      */
     private BigDecimal totalWeight;
 
@@ -178,50 +172,9 @@ public class OrderHeader extends BaseEntity {
     private String priceUom;
 
     /**
-     * 是否已打印包装详情面单
-     */
-    private Boolean packingListPrinted;
-
-    /**
-     * 是否已打印标签面单
-     */
-    private Boolean labelPrinted;
-
-    /**
-     * 是否已打印发票
-     */
-    private Boolean invoicePrinted;
-
-    /**
-     * 是否已打印拣货单
-     */
-    private Boolean pickingListPrinted;
-
-    /**
      * 退款金额
      */
-
     private BigDecimal returnRefund;
-
-	/**
-	 * 是否请求取消订单
-	 */
-    private Boolean isRequestCancel;
-
-	/**
-	 * 取消对象(buyer,seller,system)
-	 */
-    private String cancelBy;
-
-    /**
-     * 取消原因
-     */
-    private String cancelReason;
-
-    /**
-     * 取消时间
-     */
-    private LocalDateTime cancelTime;
 
     /**
      * 店铺关联表主键id
@@ -234,49 +187,28 @@ public class OrderHeader extends BaseEntity {
     private String platformName;
 
     /**
-     * 卖家备注
+     * toko 专用标识是否是自营订单
      */
-    private String sellerNotes;
+    private Boolean isFulfillment;
 
     /**
-     * 买家备注
+     * toko 专用标识是否是自营订单
      */
-    private String buyerNotes;
+    private Boolean fulfillBy;
 
+    /**
+     * 0未拆分，1拆分
+     */
+    private Boolean splitted;
 
-
-	public boolean isFulfillment=false;
-
-	private boolean fulfillBy=false;
     /**
      * 订单创建时间
      */
     private LocalDateTime orderCreateTime;
 
-	/**
-	 * 订单修改时间
-	 */
-	private LocalDateTime orderUpdateTime;
-
     /**
-     * shopee专用-发货人员
+     * 订单更新时间
      */
-    private String dropShipper;
+    private LocalDateTime orderUpdateTime;
 
-    /**
-     * shopee 专用 发货联系电话
-     */
-    private String dropShipperPhone;
-
-    /**
-     * 出站标识
-     */
-
-    private Boolean outbound;
-
-    /**
-     * 商品匹配标识 matched貌似是sql关键字使用起来不方便
-     */
-
-    private Boolean itemMatched;
 }

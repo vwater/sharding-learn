@@ -1,4 +1,4 @@
-package com.djtu.vwater.entity;
+package com.djtu.vwater.dal.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -21,18 +21,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.djtu.vwater.mapper.OrderHeaderMapper">
+<mapper namespace="com.djtu.vwater.dal.mapper.OrderHeaderMapper">
 
-<select id="queryOrderDetail" resultType="com.djtu.vwater.vo.OrderDetailVo">
-    SELECT
-        oh.order_sn AS orderSn,
-        oh.id AS orderId,
-        oh.platform_name AS platformName,
-        oi.id AS orderItemId
-    FROM
-        order_header oh
-            JOIN order_item oi ON oh.id = oi.order_id
-    WHERE oh.create_time BETWEEN #{startTime} AND #{endTime}
-      AND oi.create_time BETWEEN #{startTime} AND #{endTime}
-    </select>
+
 </mapper>

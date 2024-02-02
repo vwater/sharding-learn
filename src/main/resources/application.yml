@@ -1,38 +1,95 @@
 spring:
+#  datasource:
+#    dynamic:
+#      primary: ds2023 # 设置默认数据源
+#      strict: true # 开启严格模式，未找到对应数据源时抛出异常
+#      datasource:
+#        ds2023:
+#          type: com.zaxxer.hikari.HikariDataSource
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://localhost:3305/archive_order_2023?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+#          username: root
+#          password: 123456
+#        ds2024:
+#          type: com.zaxxer.hikari.HikariDataSource
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://localhost:3305/archive_order_2024?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+#          username: root
+#          password: 123456
+#        dshot:
+#          type: com.zaxxer.hikari.HikariDataSource
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+#          username: root
+#          password: 123456
   shardingsphere:
-    # 参数配置，显示sql
-    props:
-      sql:
-        show: true
     datasource:
-      names: omni-oc
-      omni-oc:
+      names: ds2023,ds2024
+      ds2023:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://8.210.154.116:5/vwater?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useTimezone=true&serverTimezone=Asia/Shanghai
-        username: user_root
-        password: zkE~H?!%1&omnWOW&*kZP[+
-    sharding:
-      default-data-source-name: omni-oc
-      tables:
-        order_header:
-          actual-data-nodes: omni-oc.order_header_$->{202307..202309}
-          table-strategy:
-            standard:
-              sharding-column: create_time
-              precise-algorithm-class-name: com.djtu.vwater.config.CustomPreciseShardingAlgorithm
-              range-algorithm-class-name: com.djtu.vwater.config.CustomRangeShardingAlgorithm
-        order_item:
-          actual-data-nodes: omni-oc.order_item_$->{202307..202309}
-          table-strategy:
-            standard:
-              sharding-column: create_time
-              precise-algorithm-class-name: com.djtu.vwater.config.CustomPreciseShardingAlgorithm
-              range-algorithm-class-name: com.djtu.vwater.config.CustomRangeShardingAlgorithm
-#          key-generate-strategy:
-#            column: id
-#            type: SNOWFLAKE
-#      default-table-strategy:
-#        inline:
-#          sharding-column: create_time
-#          algorithm-expression: order_header_$->{create_time.month % 100}
+        jdbc-url: jdbc:mysql://localhost:3305/archive_order_2023?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        username: root
+        password: 123456
+      ds2024:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3305/archive_order_2024?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        username: root
+        password: 123456
+#      dshot:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbc-url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+#        username: root
+#        password: 123456
+    props:
+      sql-show: true
+    rules:
+      sharding:
+        tables:
+          order_header:
+            actual-data-nodes: archive_order_$->{2023..2024}.order_header_$->{0..1}
+            database-strategy:
+              standard:
+                sharding-columns: create_time
+                sharding-algorithm-name: db-sharding-algorithm
+            table-strategy:
+              standard:
+                #分片键
+                sharding-column: tenant_id
+                sharding-algorithm-name: tb-sharding-algorithm
+#          order_header_hot:
+#            actual-data-nodes: dshot.order_header_$->{0..1}
+#            tableStrategy:
+#              inline:
+#                sharding-columns: tenant_id
+#                sharding-algorithm-name: order_header_$->{tenantId % 2}
+        sharding-algorithms:
+          db-sharding-algorithm:
+            type: CLASS_BASED
+            props:
+              strategy: standard
+              algorithmClassName: com.djtu.vwater.config.DataSourceShardingAlgorithm
+        tb-sharding-algorithm:
+          type: CLASS_BASED
+          props:
+            strategy: standard
+            # 自定义算法全限定类名
+            algorithmClassName: com.djtu.vwater.config.TableShardingAlgorithm
+
+# mybaits-plus配置
+mybatis-plus:
+#  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml
+#  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    #开启sql日志
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
