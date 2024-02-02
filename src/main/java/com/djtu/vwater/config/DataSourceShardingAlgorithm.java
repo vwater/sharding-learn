@@ -18,8 +18,6 @@ import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Properties;
 
-@Slf4j
-@Component(value = "dataSourceShardingAlgorithm")
 public class DataSourceShardingAlgorithm implements StandardShardingAlgorithm<String> {
     private  Properties properties = new Properties();
 
@@ -28,9 +26,9 @@ public class DataSourceShardingAlgorithm implements StandardShardingAlgorithm<St
     public String doSharding(Collection collection, PreciseShardingValue preciseShardingValue) {
         Integer shard=2023;
         if (shard<=2023){
-            return "ds2023";
+            return "archive_order_2023";
         }else {
-            return "ds2024";
+            return "archive_order_2024";
         }
 
     }
@@ -68,6 +66,5 @@ public class DataSourceShardingAlgorithm implements StandardShardingAlgorithm<St
     @Override
     public void init(Properties properties) {
 //        this.properties.putAll(properties);;
-        log.info("初始化按年分库算法 -> properties:{}", properties.toString());
     }
 }

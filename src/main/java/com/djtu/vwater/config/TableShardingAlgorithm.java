@@ -12,8 +12,6 @@ import java.util.Properties;
 /**
  * @author vwater
  */
-@Slf4j
-@Component
 public class TableShardingAlgorithm implements StandardShardingAlgorithm<Integer> {
 
     /**
@@ -24,7 +22,7 @@ public class TableShardingAlgorithm implements StandardShardingAlgorithm<Integer
     @Override
     public String doSharding(Collection<String> collection, PreciseShardingValue<Integer> preciseShardingValue) {
         Integer tenantId = preciseShardingValue.getValue();
-        return preciseShardingValue.getLogicTableName() + "_" + 9 % 100;
+        return preciseShardingValue.getLogicTableName() + "_" + 0 % 100;
     }
 
     @Override
@@ -49,6 +47,5 @@ public class TableShardingAlgorithm implements StandardShardingAlgorithm<Integer
      */
     @Override
     public void init(Properties properties) {
-        log.info("初始化按季度分表算法 -> properties:{}", properties.toString());
     }
 }
