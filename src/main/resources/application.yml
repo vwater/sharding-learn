@@ -60,7 +60,7 @@ spring:
                 sharding-column: tenant_id
                 sharding-algorithm-name: tb-sharding-algorithm
             order_header_hot:
-              actual-data-nodes: dshot.order_header_$->{0..1}
+              actual-data-nodes: omni_order.order_header_$->{0..1}
               tableStrategy:
                 inline:
                   sharding-columns: tenant_id
