@@ -1,27 +1,27 @@
 spring:
-#  datasource:
-#    dynamic:
-#      primary: ds2023 # 设置默认数据源
-#      strict: true # 开启严格模式，未找到对应数据源时抛出异常
-#      datasource:
-#        ds2023:
-#          type: com.zaxxer.hikari.HikariDataSource
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3305/archive_order_2023?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-#          username: root
-#          password: 123456
-#        ds2024:
-#          type: com.zaxxer.hikari.HikariDataSource
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3305/archive_order_2024?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-#          username: root
-#          password: 123456
-#        dshot:
-#          type: com.zaxxer.hikari.HikariDataSource
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-#          username: root
-#          password: 123456
+  #  datasource:
+  #    dynamic:
+  #      primary: ds2023 # 设置默认数据源
+  #      strict: true # 开启严格模式，未找到对应数据源时抛出异常
+  #      datasource:
+  #        ds2023:
+  #          type: com.zaxxer.hikari.HikariDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3305/archive_order_2023?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+  #          username: root
+  #          password: 123456
+  #        ds2024:
+  #          type: com.zaxxer.hikari.HikariDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3305/archive_order_2024?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+  #          username: root
+  #          password: 123456
+  #        dshot:
+  #          type: com.zaxxer.hikari.HikariDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+  #          username: root
+  #          password: 123456
   shardingsphere:
     datasource:
       names: ds2023,ds2024
@@ -37,12 +37,12 @@ spring:
         jdbc-url: jdbc:mysql://localhost:3305/archive_order_2024?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
         username: root
         password: 123456
-#      dshot:
-#        type: com.zaxxer.hikari.HikariDataSource
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        jdbc-url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-#        username: root
-#        password: 123456
+    #      dshot:
+    #        type: com.zaxxer.hikari.HikariDataSource
+    #        driver-class-name: com.mysql.cj.jdbc.Driver
+    #        jdbc-url: jdbc:mysql://localhost:3305/omni_order?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    #        username: root
+    #        password: 123456
     props:
       sql-show: true
     rules:
@@ -59,30 +59,30 @@ spring:
                 #分片键
                 sharding-column: tenant_id
                 sharding-algorithm-name: tb-sharding-algorithm
-#          order_header_hot:
-#            actual-data-nodes: dshot.order_header_$->{0..1}
-#            tableStrategy:
-#              inline:
-#                sharding-columns: tenant_id
-#                sharding-algorithm-name: order_header_$->{tenantId % 2}
+        #          order_header_hot:
+        #            actual-data-nodes: dshot.order_header_$->{0..1}
+        #            tableStrategy:
+        #              inline:
+        #                sharding-columns: tenant_id
+        #                sharding-algorithm-name: order_header_$->{tenantId % 2}
         sharding-algorithms:
           db-sharding-algorithm:
             type: CLASS_BASED
             props:
               strategy: standard
               algorithmClassName: com.djtu.vwater.config.DataSourceShardingAlgorithm
-        tb-sharding-algorithm:
-          type: CLASS_BASED
-          props:
-            strategy: standard
-            # 自定义算法全限定类名
-            algorithmClassName: com.djtu.vwater.config.TableShardingAlgorithm
+          tb-sharding-algorithm:
+            type: CLASS_BASED
+            props:
+              strategy: standard
+              # 自定义算法全限定类名
+              algorithmClassName: com.djtu.vwater.config.TableShardingAlgorithm
 
 # mybaits-plus配置
 mybatis-plus:
-#  mapper-locations: classpath:mapper/*.xml
+  #  mapper-locations: classpath:mapper/*.xml
   mapper-locations: classpath:/mapper/*Mapper.xml
-#  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  #  mapper-locations: classpath*:/mapper/**/*Mapper.xml
   global-config:
     banner: false
     db-config:
