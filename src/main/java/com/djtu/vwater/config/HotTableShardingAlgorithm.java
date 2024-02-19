@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * @author vwater
  */
-public class TableShardingAlgorithm implements StandardShardingAlgorithm<Integer> {
+public class HotTableShardingAlgorithm implements StandardShardingAlgorithm<Integer> {
 
     /**
      * 分片算法的属性配置

@@ -24,7 +24,7 @@ spring:
           password: 123456
   shardingsphere:
     datasource:
-      names: archive_order_2023,archive_order_2024
+      names: archive_order_2023,archive_order_2024,omni_order
       archive_order_2023:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -51,32 +51,38 @@ spring:
           order_header:
             actual-data-nodes: archive_order_$->{2023..2024}.order_header_$->{0..1}
             database-strategy:
-              standard:
-                sharding-column: create_time
+              complex:
+                sharding-columns: create_time
                 sharding-algorithm-name: db-sharding-algorithm
             table-strategy:
               standard:
                 #分片键
                 sharding-column: tenant_id
                 sharding-algorithm-name: tb-sharding-algorithm
-            order_header_hot:
-              actual-data-nodes: omni_order.order_header_$->{0..1}
-              tableStrategy:
-                inline:
-                  sharding-columns: tenant_id
-                  sharding-algorithm-name: order_header_$->{tenantId % 2}
+          order_header_hot:
+            actual-data-nodes: omni_order.order_header_hot_$->{0..1}
+            table-strategy:
+                standard:
+                  sharding-column: tenant_id
+                  sharding-algorithm-name: htb-sharding-algorithm
         sharding-algorithms:
           db-sharding-algorithm:
             type: CLASS_BASED
             props:
-              strategy: standard
-              algorithmClassName: com.djtu.vwater.config.DataSourceShardingAlgorithm
+              strategy: complex
+              algorithmClassName: com.djtu.vwater.config.DataSourceShardingComplexAlgorithm
           tb-sharding-algorithm:
             type: CLASS_BASED
             props:
               strategy: standard
               # 自定义算法全限定类名
               algorithmClassName: com.djtu.vwater.config.TableShardingAlgorithm
+          htb-sharding-algorithm:
+            type: CLASS_BASED
+            props:
+              strategy: standard
+              # 自定义算法全限定类名
+              algorithmClassName: com.djtu.vwater.config.HotTableShardingAlgorithm
 
 # mybaits-plus配置
 mybatis-plus:
