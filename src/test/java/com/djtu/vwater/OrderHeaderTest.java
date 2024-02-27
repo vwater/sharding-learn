@@ -1,6 +1,7 @@
 package com.djtu.vwater;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.djtu.vwater.config.TenantContextHolder;
 import com.djtu.vwater.dal.entity.OrderHeader;
 import com.djtu.vwater.dal.entity.OrderHeaderHot;
 import com.djtu.vwater.dal.entity.OrderItem;
@@ -35,7 +36,6 @@ public class OrderHeaderTest {
             OrderHeader orderHeader = new OrderHeader();
             orderHeader.setTenantId(orderHeaderHot.getTenantId());
             orderHeader.setId(orderHeaderHot.getId()+1);
-            orderHeader.setOrderSn(orderHeaderHot.getOrderSn());
             orderHeader.setCreateTime(orderHeaderHot.getCreateTime());
             orderHeaderMapper.insert(orderHeader);
         }
@@ -50,4 +50,11 @@ public class OrderHeaderTest {
         System.out.println();
     }
 
+
+    @Test
+    void testMultiQuery(){
+        TenantContextHolder.setTenantId(1);
+        long orderId = orderHeaderMapper.queryMulityQuery(1L);
+        System.out.println(orderId);
+    }
 }

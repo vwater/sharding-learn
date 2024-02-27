@@ -23,5 +23,8 @@
 
 <mapper namespace="com.djtu.vwater.dal.mapper.OrderHeaderMapper">
 
-
+    <select id="queryMulityQuery" resultType="long">
+        SELECT oh.id FROM  order_header oh JOIN order_item oi ON oh.id=oi.order_id
+        WHERE  oh.id=#{orderId}
+    </select>
 </mapper>

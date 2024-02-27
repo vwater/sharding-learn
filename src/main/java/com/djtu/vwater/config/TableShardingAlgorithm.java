@@ -20,7 +20,7 @@ public class TableShardingAlgorithm implements StandardShardingAlgorithm<Integer
     @Override
     public String doSharding(Collection<String> collection, PreciseShardingValue<Integer> preciseShardingValue) {
         Integer tenantId = preciseShardingValue.getValue();
-        return preciseShardingValue.getLogicTableName() + "_" + tenantId % 100;
+        return preciseShardingValue.getLogicTableName() + "_" + tenantId % 4;
     }
 
     @Override

@@ -19,4 +19,5 @@ import java.time.LocalDateTime;
 public interface OrderHeaderMapper extends BaseMapper<OrderHeader> {
 
 
+    long queryMulityQuery(@Param("orderId") Long orderId);
 }
